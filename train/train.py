@@ -17,6 +17,7 @@ import tomllib
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from data import TokenDataset  # noqa: E402
 from model import build_model, count_params  # noqa: E402
