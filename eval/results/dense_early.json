@@ -1,0 +1,8 @@
+{
+  "tag": "dense_early",
+  "step": 50,
+  "params": 25172352,
+  "val_loss": 8.8689,
+  "val_ppl": 7107.52,
+  "bits_per_byte": 2.9196
+}

@@ -28,9 +28,12 @@ def main() -> None:
     ap.add_argument("--max-new-tokens", type=int, default=80)
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--eval-batches", type=int, default=64)
+    ap.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
     args = ap.parse_args()
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = args.device
+    if device == "auto":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
     ck = torch.load(args.ckpt, map_location=device, weights_only=False)
     cfg = ModelConfig(**ck["model_cfg"])
     model = build_model(cfg).to(device)

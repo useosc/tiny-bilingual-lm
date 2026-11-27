@@ -1,0 +1,8 @@
+{
+  "tag": "dense_step1000",
+  "step": 1000,
+  "params": 25172352,
+  "val_loss": 5.5717,
+  "val_ppl": 262.89,
+  "bits_per_byte": 1.8342
+}

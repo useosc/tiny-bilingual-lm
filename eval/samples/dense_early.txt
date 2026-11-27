@@ -1,0 +1,48 @@
+# dense_early  step=50  val=8.8689  bpb=2.9196
+
+[zh] PROMPT: 中国的首都是
+中国的首都是.
+- the
+- the health, the the specific.
+--’s.
+-- the in the the the the all the the the the at to the which at the the
+
+[zh] PROMPT: 人工智能的发展
+人工智能的发展,在,,, and the the the and the the the, in the is the the to the the-- that the the the the is the small and the the the to the the to
+
+[zh] PROMPT: 今天天气很好，我们一起去
+今天天气很好，我们一起去,, it,,,,,,,,,更,,,,,,,,。
+-,,,,, and a,, and the the.
+- are
+
+[zh] PROMPT: 机器学习是人工智能的一个重要分支，它
+机器学习是人工智能的一个重要分支，它,
+,、被要,,,”,,,,,。
+,,,,,,,其中,,,,,,,,,,,,,,。
+
+[en] PROMPT: The capital of France is
+The capital of France is all.
+-.
+As these the often.
+I of offable to the the the theable.
+- used, and the the the.
+- for the the of the and
+
+[en] PROMPT: Machine learning is a field of
+Machine learning is a field of the the the the the,, the, the the the on often to the being.
+-.
+-.
+- time for often with the the the the, it.
+.
+
+[en] PROMPT: Once upon a time, there was a
+Once upon a time, there was a the a, these theable to at is thet.
+- and not in the.
+, a an a and the the the of the the time.
+--.
+--
+
+[en] PROMPT: In recent years, large language models have
+In recent years, large language models have a, and the the
+- the, for the the on the of theT these up an the, the the the the and, is the, the.
+ healthy, the health.
