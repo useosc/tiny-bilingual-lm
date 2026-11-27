@@ -7,7 +7,12 @@ const statusEl = document.getElementById("status");
 const loadMetaEl = document.getElementById("loadmeta");
 
 ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/";
-ort.env.wasm.numThreads = Math.min(4, navigator.hardwareConcurrency || 2);
+// SharedArrayBuffer (multi-thread WASM) needs cross-origin isolation, which
+// GitHub Pages does not provide. Fall back to one thread instead of failing.
+ort.env.wasm.numThreads =
+  self.crossOriginIsolated && navigator.hardwareConcurrency > 1
+    ? Math.min(4, navigator.hardwareConcurrency)
+    : 1;
 
 let tok = null;
 let session = null;
@@ -76,8 +81,10 @@ async function step(tokenId, pos) {
   return out.logits.data;
 }
 
-function sample(logits, temperature, topk) {
+function sample(logits, temperature, topk, recent = []) {
   const v = Float32Array.from(logits);
+  // simple repetition penalty: weak models get stuck in loops without it
+  for (const id of recent) v[id] /= 1.35;
   if (temperature <= 0) {
     let best = 0;
     for (let i = 1; i < v.length; i++) if (v[i] > v[best]) best = i;
@@ -108,7 +115,7 @@ async function generate(prompt, maxTokens = 80, temperature = 0.9, topk = 40) {
   const outIds = [];
   const t0 = performance.now();
   for (let i = 0; i < maxTokens; i++) {
-    const id = sample(logits, temperature, topk);
+    const id = sample(logits, temperature, topk, outIds.slice(-48));
     if (id === EOS()) break;
     outIds.push(id);
     // stream text

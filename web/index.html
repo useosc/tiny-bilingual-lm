@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:," />
 <title>tiny-bilingual-lm · 25M 中英小模型</title>
 <style>
   :root { --bg:#0f1115; --card:#171a21; --fg:#e8eaf0; --muted:#8b93a7; --accent:#4f8cff; }
@@ -42,7 +43,7 @@
   <div id="status">loading…</div>
   <details>
     <summary>说明</summary>
-    <p>这是一个 <b>25M 参数的 base 模型</b>（不是指令微调模型），在 SkyPile 中文网页 + FineWeb-Edu 英文网页的 500M tokens 上预训练。
+    <p>这是一个 <b>25M 参数的 base 模型</b>（不是指令微调模型），在 SkyPile 中文网页 + FineWeb-Edu 英文网页清洗后的约 5 亿 tokens 上预训练。
     它的能力上限很低：能续写、能模仿文本风格，但不会真正“回答问题”。页面把模型、分词器和推理全部放在浏览器里运行，不需要后端。</p>
     <p>架构：Llama 风格（RMSNorm + SwiGLU + RoPE + GQA），8 层，d=384，6 头，2 个 KV 头，上下文 512。</p>
   </details>
