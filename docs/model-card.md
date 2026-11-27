@@ -44,11 +44,13 @@ near-dedup in v1).
 
 | metric | value |
 |---|---|
-| validation loss (nats) | |
-| perplexity | |
-| bits per byte | |
-| peak VRAM | |
-| training wall-clock | |
+| validation loss (nats) | **4.098** |
+| perplexity | 60.2 |
+| bits per byte | 1.349 |
+| tokens seen | 492 M (19.5 per parameter) |
+| training wall-clock | ~6.6 h on one RTX 4050 Laptop |
+| peak VRAM | ~5.8 GB |
+| throughput | 17–29 k tokens/s |
 
 ## Limitations
 

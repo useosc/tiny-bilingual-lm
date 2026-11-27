@@ -1,0 +1,8 @@
+{
+  "tag": "dense_25m",
+  "step": 20000,
+  "params": 25172352,
+  "val_loss": 4.098,
+  "val_ppl": 60.22,
+  "bits_per_byte": 1.349
+}
