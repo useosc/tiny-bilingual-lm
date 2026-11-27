@@ -29,6 +29,14 @@ weight_type=QuantType.QInt8, op_types_to_quantize=['MatMul','Gemm'])"
 
 76 MB is under GitHub's 100 MB per-file limit and is what the page loads.
 
+## Measured speeds
+
+| runtime | tokens/s | note |
+|---|---|---|
+| Python onnxruntime, CPU | 531–683 | `tests/test_onnx.py` |
+| onnxruntime-web (WASM, Node) | ~200 | `tests/test_web.mjs`, 4 threads, int8 |
+| PyTorch CUDA (reference) | >20 000 | training throughput, not decoding |
+
 ## Browser runtime
 
 `web/` is a static site: `index.html`, `app.js`, `bpe.js`, plus
