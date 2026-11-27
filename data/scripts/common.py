@@ -7,11 +7,14 @@ import unicodedata
 
 CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 LETTER_RE = re.compile(r"[A-Za-z]")
+ALNUM_RE = re.compile(r"[^\W_]", re.UNICODE)  # letters + digits, C-speed
 WORD_RE = re.compile(r"[A-Za-z']+")
 HTML_TAG_RE = re.compile(r"<[^>]{1,200}>")
 CTRL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
 MULTI_NL_RE = re.compile(r"\n{3,}")
 MULTI_SPACE_RE = re.compile(r"[ \t]{2,}")
+
+GOOD_EXTRA = " \n\t.,;:!?'\"()[]-—、。，；：！？“”‘’《》…"
 
 EN_STOPWORDS = {
     "the", "and", "of", "to", "in", "is", "that", "for", "it", "as", "with",
@@ -46,12 +49,11 @@ def _dup_line_ratio(text: str) -> float:
     counts: dict[str, int] = {}
     for ln in lines:
         counts[ln] = counts.get(ln, 0) + 1
-    top = max(counts.values())
-    return top / len(lines)
+    return max(counts.values()) / len(lines)
 
 
 def quality_ok(text: str, lang: str) -> tuple[bool, str]:
-    """Return (keep, reason_if_dropped)."""
+    """Return (keep, reason_if_dropped). All hot loops use C-level regex/count."""
     n = len(text)
     if n < 200:
         return False, "too_short"
@@ -59,7 +61,6 @@ def quality_ok(text: str, lang: str) -> tuple[bool, str]:
         return False, "too_long"
 
     cjk = len(CJK_RE.findall(text))
-    letters = len(LETTER_RE.findall(text))
     if lang == "zh":
         if cjk / n < 0.20:
             return False, "not_zh"
@@ -68,17 +69,24 @@ def quality_ok(text: str, lang: str) -> tuple[bool, str]:
     else:
         if cjk > 0.02 * n:
             return False, "cjk_in_en"
+        letters = len(LETTER_RE.findall(text))
         if letters / n < 0.55:
             return False, "not_en"
-        words = WORD_RE.findall(text.lower())
+        sample = text[:5000].lower()
+        words = WORD_RE.findall(sample)
         if len(words) < 30:
             return False, "too_few_words"
         hits = sum(1 for w in words if w in EN_STOPWORDS)
         if hits / len(words) < 0.05:
             return False, "no_en_stopwords"
 
-    # Symbol soup / mojibake / nav junk.
-    good = sum(1 for c in text if c.isalnum() or c.isspace() or c in ".,;:!?'\"()[]-—、。，；：！？“”‘’《》…")
+    # Printable ratio, counted with C-level primitives.
+    good = len(ALNUM_RE.findall(text))
+    good += text.count(" ") + text.count("\n") + text.count("\t")
+    for c in GOOD_EXTRA:
+        if c in " \n\t":
+            continue
+        good += text.count(c)
     if good / n < 0.80:
         return False, "symbol_ratio"
 

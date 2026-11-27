@@ -73,6 +73,7 @@ def main() -> None:
     ap.add_argument("--zh", default="data/raw/skypile")
     ap.add_argument("--en", default="data/raw/fineweb_edu")
     ap.add_argument("--out", default="data/processed")
+    ap.add_argument("--only", choices=["both", "zh", "en"], default="both")
     ap.add_argument("--limit-docs", type=int, default=0, help="0 = no limit (debugging aid)")
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
@@ -84,10 +85,17 @@ def main() -> None:
 
     seen: set[str] = set()
     report = {}
-    report["zh"] = run("zh", zh_paths, os.path.join(args.out, "zh.jsonl.gz"), seen)
-    report["en"] = run("en", en_paths, os.path.join(args.out, "en.jsonl.gz"), seen)
-    with open(os.path.join(args.out, "stats.json"), "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=2)
+    if args.only in ("both", "zh"):
+        report["zh"] = run("zh", zh_paths, os.path.join(args.out, "zh.jsonl.gz"), seen)
+    if args.only in ("both", "en"):
+        report["en"] = run("en", en_paths, os.path.join(args.out, "en.jsonl.gz"), seen)
+    stats_path = os.path.join(args.out, "stats.json")
+    merged = {}
+    if os.path.exists(stats_path):
+        merged = json.load(open(stats_path, encoding="utf-8"))
+    merged.update(report)
+    with open(stats_path, "w", encoding="utf-8") as f:
+        json.dump(merged, f, ensure_ascii=False, indent=2)
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
