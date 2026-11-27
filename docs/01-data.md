@@ -78,7 +78,10 @@ rented machine.
 Filled automatically by `clean.py` into `data/processed/stats.json`; the final
 numbers for this build are recorded in the table below and in `docs/05-evaluation.md`.
 
-| language | docs in | kept | kept % | chars kept | est. tokens |
+| language | docs in | kept | kept % | chars kept | tokens |
 |---|---|---|---|---|---|
-| zh | (see stats.json) | | | | |
-| en | (see stats.json) | | | | |
+| zh | 424 224 (all lines of shard 0000) | 424 224 | 100 % (shard is pre-filtered by Skywork) | 421 M | 259.6 M |
+| en | 435 357 | 430 948 | 99.0 % | 2 115 M | 487.9 M |
+
+Token counts come from `pack_tokens.py`; compression is 1.62 chars/token for
+Chinese and 4.33 chars/token for English (`bytes_per_token` ≈ 4.38 for the mix).

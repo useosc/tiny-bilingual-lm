@@ -26,8 +26,9 @@
 
 | language | rule of thumb | measured (this build) |
 |---|---|---|
-| Chinese | ~1 token / 1.2–1.5 chars | (filled after packing — see `data/tokenized/raw_meta.json`) |
-| English | ~1 token / 4 chars | (same) |
+| Chinese | ~1 token / 1.2–1.5 chars | **1.62 chars/token** (421 M chars → 259.6 M tokens) |
+| English | ~1 token / 4 chars | **4.33 chars/token** (2 115 M chars → 487.9 M tokens) |
+| mixed | — | 4.38 UTF-8 bytes/token (used for BPB) |
 
 The corpus statistics (`bytes_per_token`) are written by `pack_tokens.py` and
 used to convert validation loss into bits-per-byte in `eval/evaluate.py`.
