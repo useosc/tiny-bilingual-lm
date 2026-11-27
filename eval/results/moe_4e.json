@@ -1,0 +1,8 @@
+{
+  "tag": "moe_4e",
+  "step": 4000,
+  "params": 44059008,
+  "val_loss": 5.069,
+  "val_ppl": 159.02,
+  "bits_per_byte": 1.6687
+}

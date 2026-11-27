@@ -28,8 +28,8 @@ Results land in `eval/results/*.json`.
 | run | params | tokens seen | val loss | ppl | bpb | tok/s (train) |
 |---|---|---|---|---|---|---|
 | dense_25m | 25.2 M | 492 M | 4.098 | 60.2 | 1.349 | ~20 000 (peak) |
-| moe_4e | 44.1 M | ~74 M | (filling) | | | |
-| looped_16m | 15.7 M | ~79 M | (filling) | | | |
+| moe_4e | 44.1 M (29.9 M active) | 49 M (4 000 steps) | 5.069 | 159.0 | 1.669 | ~6–10 k |
+| looped_16m | 15.7 M | (filling) | | | | |
 
 ## What "good" looks like here
 

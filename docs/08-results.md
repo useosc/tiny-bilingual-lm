@@ -24,10 +24,11 @@ crops; BPB uses 4.382 bytes/token.
 | metric | value |
 |---|---|
 | params | 44,059,008 (≈29.9 M active) |
-| tokens seen | (from budget) |
-| val loss | (filled) |
-| bits per byte | (filled) |
-| note | shorter run, compare at equal tokens |
+| tokens seen | 55 M (4 500 steps; best ckpt at 4 000 = 49 M) |
+| val loss | 5.069 |
+| bits per byte | 1.669 |
+| throughput | 6–10 k tokens/s |
+| note | **at equal tokens the dense model is equally good**: dense at 2 000 steps (49 M tokens) has val 5.056 vs MoE 5.069 at the same 49 M tokens, while MoE costs ~2× compute and 1.75× parameters. With 4 experts, 49 M tokens is far too little routing data — this is the expected "MoE needs much more tokens" result, not a bug. |
 
 ## Looped 15.7 M (2 unique blocks × 4 loops)
 

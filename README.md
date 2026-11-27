@@ -11,6 +11,9 @@ The point is not to beat Qwen. The point is to own every line of the pipeline,
 so the same code can be moved to a rented A100/H100 cluster later without a
 rewrite.
 
+**Live demo (runs fully in your browser, no backend):**
+https://useosc.github.io/tiny-bilingual-lm/
+
 ## Status
 
 | stage | artifact | status |
@@ -19,10 +22,10 @@ rewrite.
 | tokenizer | 32k byte-level BPE, zh 1.62 chars/token, en 4.33 chars/token | done |
 | packed data | 496 M train + 4 M val tokens (uint16), zh:en = 50:50 | done |
 | dense 25M | 25.2 M params, 512 ctx, 492 M tokens | **done**: val 4.098 / ppl 60.2 / BPB 1.349 |
-| MoE 4-expert | 44.1 M total params, top-2 routing + aux loss | training |
-| looped | 2 unique layers x 4 loops (15.7 M params, 8 effective layers) | queued |
-| demo | ONNX int8 (72.5 MB) + static chat page, final dense model | **live**: https://useosc.github.io/tiny-bilingual-lm/ |
-| docs | 7 design docs with citations | done, results pending |
+| MoE 4-expert | 44.1 M total params, top-2 routing + aux loss | done: val 5.069 at 49 M tokens (dense at same tokens: 5.056) |
+| looped | 2 unique layers x 4 loops (15.7 M params, 8 effective layers) | training |
+| demo | ONNX int8 (72.5 MB) + static chat page, final dense model | **live** |
+| docs | 8 design docs with citations | done |
 
 ## Quick start
 
@@ -53,6 +56,7 @@ optimizer) is written down with its source paper in [`docs/`](docs/):
 - [05-evaluation.md](docs/05-evaluation.md) - val loss, bits-per-byte, samples
 - [06-deployment.md](docs/06-deployment.md) - ONNX export and browser inference
 - [07-decisions-log.md](docs/07-decisions-log.md) - ADR: every choice + evidence
+- [08-results.md](docs/08-results.md) - measured results for the three variants
 
 ## Repository layout
 
@@ -64,6 +68,8 @@ tokenizer/   BPE training
 eval/        checkpoint evaluation and sample generation
 export/      ONNX export for the web demo
 web/         static chat page (GitHub Pages)
+scripts/     one-shot pipeline, overnight chain, Pages deploy, plots
+tests/       model/KV-cache/ONNX/BPE/browser tests
 docs/        design decisions with citations
 ```
 
