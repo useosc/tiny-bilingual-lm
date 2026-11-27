@@ -1,0 +1,27 @@
+# datasets / artifacts (never commit)
+data/raw/
+data/processed/
+data/tokenized/
+tokenizer/artifacts/*.json
+tokenizer/artifacts/*.txt
+checkpoints/
+logs/
+web/model/
+*.bin
+*.pt
+*.onnx
+*.safetensors
+*.jsonl.gz
+*.parquet
+*.jsonl
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# os
+Thumbs.db
+.DS_Store

@@ -1,0 +1,33 @@
+[model]
+arch = "moe"
+vocab_size = 32768
+d_model = 384
+n_layers = 8
+n_heads = 6
+n_kv_heads = 2
+ffn_hidden = 768
+max_seq_len = 512
+tie_embeddings = true
+rope_theta = 10000.0
+n_experts = 4
+top_k = 2
+aux_loss_weight = 0.01
+
+[train]
+data_dir = "data/tokenized"
+out_dir = "checkpoints/moe_4e"
+batch_size = 16
+grad_accum = 2
+lr = 0.0008
+min_lr = 0.00008
+warmup_steps = 300
+max_steps = 12000
+weight_decay = 0.1
+beta1 = 0.9
+beta2 = 0.95
+grad_clip = 1.0
+eval_interval = 1000
+eval_batches = 32
+log_interval = 20
+save_interval = 2000
+seed = 1337
