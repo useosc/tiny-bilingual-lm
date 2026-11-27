@@ -31,8 +31,8 @@ pip install -r requirements.txt
 python data/scripts/download.py --zh-shards 1 --en-shards 1
 python data/scripts/clean.py
 python tokenizer/train_tokenizer.py
-python data/scripts/tokenize.py
-python data/scripts/mix.py --total-tokens 600000000
+python data/scripts/pack_tokens.py
+python data/scripts/mix.py --total-tokens 500000000
 
 python train/train.py --config configs/dense_25m.toml
 python eval/evaluate.py --ckpt checkpoints/dense_25m/best.pt
@@ -43,12 +43,12 @@ python eval/evaluate.py --ckpt checkpoints/dense_25m/best.pt
 Every architectural decision (width, depth, heads, data volume, mixture,
 optimizer) is written down with its source paper in [`docs/`](docs/):
 
-- [01-data.md](docs/01-data.md) â€” corpora, licences, cleaning, zh/en ratio
-- [02-tokenizer.md](docs/02-tokenizer.md) â€” vocab size, BPE vs unigram
-- [03-model-architecture.md](docs/03-model-architecture.md) â€” dims, heads, GQA, MoE, looped
-- [04-training.md](docs/04-training.md) â€” budget, LR, batch size, memory math
-- [05-evaluation.md](docs/05-evaluation.md) â€” val loss, bits-per-byte, samples
-- [06-deployment.md](docs/06-deployment.md) â€” ONNX export and browser inference
+- [01-data.md](docs/01-data.md) â€?corpora, licences, cleaning, zh/en ratio
+- [02-tokenizer.md](docs/02-tokenizer.md) â€?vocab size, BPE vs unigram
+- [03-model-architecture.md](docs/03-model-architecture.md) â€?dims, heads, GQA, MoE, looped
+- [04-training.md](docs/04-training.md) â€?budget, LR, batch size, memory math
+- [05-evaluation.md](docs/05-evaluation.md) â€?val loss, bits-per-byte, samples
+- [06-deployment.md](docs/06-deployment.md) â€?ONNX export and browser inference
 
 ## Repository layout
 
@@ -65,4 +65,4 @@ docs/        design decisions with citations
 
 ## Licence
 
-MIT (code). Datasets keep their own licences â€” see `docs/01-data.md`.
+MIT (code). Datasets keep their own licences â€?see `docs/01-data.md`.

@@ -60,10 +60,13 @@ def main() -> None:
     val.flush()
     del val, out_train
 
+    raw = json.load(open(os.path.join(args.tokenized, "raw_meta.json"), encoding="utf-8"))
+    bpt = (raw["zh"]["bytes"] + raw["en"]["bytes"]) / max(raw["zh"]["tokens"] + raw["en"]["tokens"], 1)
     meta = {
         "tokens_train": int(train_n),
         "tokens_val": int(val_n),
         "zh_ratio": args.zh_ratio,
+        "bytes_per_token": bpt,
         "sources": {"zh": "SkyPile-150B (2020-40)", "en": "FineWeb-Edu (CC-MAIN-2025-26)"},
     }
     with open(os.path.join(args.tokenized, "meta.json"), "w", encoding="utf-8") as f:

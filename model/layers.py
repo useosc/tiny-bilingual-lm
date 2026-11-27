@@ -49,9 +49,10 @@ def rotate_half(x: torch.Tensor) -> torch.Tensor:
 
 
 def apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.Tensor:
-    """x: [B, H, T, D], cos/sin: [T, D]."""
-    cos = cos[None, None, : x.shape[2], :]
-    sin = sin[None, None, : x.shape[2], :]
+    """x: [B, H, T, D]; cos/sin: [T, D] or [1, 1, T, D]."""
+    if cos.dim() == 2:
+        cos = cos[None, None, :, :]
+        sin = sin[None, None, :, :]
     return x * cos + rotate_half(x) * sin
 
 
@@ -82,8 +83,6 @@ class CausalSelfAttention(nn.Module):
         k = self.k_proj(x).view(B, T, self.n_kv_heads, self.head_dim).transpose(1, 2)
         v = self.v_proj(x).view(B, T, self.n_kv_heads, self.head_dim).transpose(1, 2)
 
-        offset = past_kv[0].shape[2] if past_kv is not None else 0
-        cos, sin = cos[offset : offset + T], sin[offset : offset + T]
         q, k = apply_rope(q, cos, sin), apply_rope(k, cos, sin)
 
         if past_kv is not None:

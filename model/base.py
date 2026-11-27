@@ -80,11 +80,18 @@ class BaseLM(nn.Module):
         targets: torch.Tensor | None = None,
         past_kvs: list | None = None,
         use_cache: bool = False,
+        pos: torch.Tensor | None = None,
     ):
         x = self.embed_tokens(idx)
-        x, new_kvs = self._run_blocks(
-            x, self.rope_cos, self.rope_sin, past_kvs=past_kvs, use_cache=use_cache
-        )
+        B, T = idx.shape
+        offset = 0
+        if past_kvs is not None and past_kvs[0] is not None:
+            offset = past_kvs[0][0].shape[2]
+        if pos is None:
+            pos = torch.arange(offset, offset + T, device=idx.device)
+        cos = self.rope_cos.index_select(0, pos).unsqueeze(0).unsqueeze(0)
+        sin = self.rope_sin.index_select(0, pos).unsqueeze(0).unsqueeze(0)
+        x, new_kvs = self._run_blocks(x, cos, sin, past_kvs=past_kvs, use_cache=use_cache)
         x = self.norm(x)
         logits = self.lm_head(x)
         loss = None
