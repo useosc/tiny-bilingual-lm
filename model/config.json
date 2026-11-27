@@ -8,5 +8,5 @@
   "vocab_size": 32768,
   "max_seq_len": 512,
   "params_m": 25.17,
-  "step": 8000
+  "step": 20000
 }
