@@ -1,0 +1,8 @@
+{
+  "tag": "looped_16m",
+  "step": 8000,
+  "params": 15730560,
+  "val_loss": 4.7632,
+  "val_ppl": 117.12,
+  "bits_per_byte": 1.568
+}

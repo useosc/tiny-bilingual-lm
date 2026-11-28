@@ -23,9 +23,21 @@ https://useosc.github.io/tiny-bilingual-lm/
 | packed data | 496 M train + 4 M val tokens (uint16), zh:en = 50:50 | done |
 | dense 25M | 25.2 M params, 512 ctx, 492 M tokens | **done**: val 4.098 / ppl 60.2 / BPB 1.349 |
 | MoE 4-expert | 44.1 M total params, top-2 routing + aux loss | done: val 5.069 at 49 M tokens (dense at same tokens: 5.056) |
-| looped | 2 unique layers x 4 loops (15.7 M params, 8 effective layers) | training |
+| looped | 2 unique layers x 4 loops (15.7 M params, 8 effective layers) | done: val 4.763 at 131 M tokens |
 | demo | ONNX int8 (72.5 MB) + static chat page, final dense model | **live** |
 | docs | 8 design docs with citations | done |
+
+## Results (one RTX 4050 Laptop, 6 GB)
+
+| run | params | tokens | val loss | ppl | bits/byte |
+|---|---|---|---|---|---|
+| dense | 25.2 M | 492 M | **4.098** | 60.2 | 1.349 |
+| MoE (4 experts, top-2) | 44.1 M (29.9 M active) | 49 M | 5.069 | 159.0 | 1.669 |
+| looped (2 x 4) | 15.7 M | 131 M | 4.763 | 117.1 | 1.568 |
+
+At equal tokens (~49 M) dense 5.056 ≈ MoE 5.069 > looped 5.216: at this scale
+neither MoE nor recurrence beats a plain dense model per token; MoE costs ~2x
+compute and looped saves ~38% parameters. Details in [docs/08-results.md](docs/08-results.md).
 
 ## Quick start
 

@@ -36,9 +36,30 @@ crops; BPB uses 4.382 bytes/token.
 |---|---|
 | params | 15,730,560 |
 | effective depth | 8 |
-| tokens seen | (from budget) |
-| val loss | (filled) |
-| bits per byte | (filled) |
+| tokens seen | 131 M (8 000 steps) |
+| val loss | 4.763 |
+| bits per byte | 1.568 |
+| throughput | 16–47 k tokens/s (fewer params → faster per step) |
+
+## Comparison at equal tokens
+
+| tokens seen | dense 25.2 M | MoE 44.1 M | looped 15.7 M |
+|---|---|---|---|
+| ~49 M | 5.056 | 5.069 | 5.216 |
+| ~98 M | 4.724 | – | 4.862 |
+| ~131 M | 4.60 (interp.) | – | 4.763 |
+
+Honest reading:
+
+* **MoE did not pay off** at this scale: equal-token quality matches dense while
+  costing ~1.75× parameters and ~2× compute per token. With only 49 M tokens,
+  routing never gets enough data. This matches the known "MoE needs large token
+  budgets" result (Switch/Mixtral train on trillions).
+* **Looped is consistently worse at equal tokens** (5.22 vs 5.06 and 4.86 vs
+  4.72) but uses 38 % fewer parameters and trains ~1.5× faster per step. In
+  other words recurrence buys parameter savings, not free quality — at 15 M
+  scale the extra depth is not enough to compensate for the smaller embedding
+  and FFN budget.
 
 ## Qualitative samples
 
