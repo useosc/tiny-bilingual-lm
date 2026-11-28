@@ -20,7 +20,7 @@ await page.waitForFunction(
 );
 console.log("status:", await page.$eval("#status", (e) => e.textContent));
 
-await page.type("#input", "人工智能是");
+await page.type("#input", process.argv[3] || "人工智能是");
 await page.click("#send");
 await page.waitForFunction(
   () => document.querySelectorAll(".msg.bot").length >= 2 &&
